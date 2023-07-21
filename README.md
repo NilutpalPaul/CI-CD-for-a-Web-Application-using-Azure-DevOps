@@ -3,6 +3,7 @@
 This project involves setting up a continuous integration and deployment (CI/CD) pipeline for a web application using Azure DevOps. The project's main goal is to automate the process of building, testing, and deploying the application to Azure Web App Services.
 
 We are creating a simple web application using Node.js with a basic frontend and backend.
+
 Source Code
 
 # index.html
