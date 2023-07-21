@@ -1,0 +1,34 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    npm install
+    npm run build
+  displayName: 'Build and Test'
+
+- task: Docker@2
+  inputs:
+    command: 'build'
+    Dockerfile: 'Dockerfile'
+    tags: 'mywebapp:$(Build.BuildId)'
+  displayName: 'Build Docker Image'
+
+- task: Docker@2
+  inputs:
+    command: 'push'
+    containerRegistry: 'your-container-registry'
+    repository: 'mywebapp'
+    tags: 'latest'
+  displayName: 'Push Docker Image'
+
+- task: AzureWebAppContainerDeployment@1
+  inputs:
+    azureSubscription: 'your-azure-subscription'
+    appName: 'your-web-app-name'
+    containerRegistry: 'your-container-registry'
+    imageName: 'mywebapp:$(Build.BuildId)'
+  displayName: 'Deploy to Azure Web App'
